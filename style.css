@@ -1,6 +1,6 @@
 /* تعريف الفونت العربي اللي هترفعه */
 @font-face {
-  font-family: 'ZEYADA Arabic 1'; /* اسم مستعار للفونت العربي */
+  font-family: 'ZEYADAArabic-VF-.tff'; /* اسم مستعار للفونت العربي */
   src: url('ZEYADAArabic-VF-.tff') format('tff'), /* غير الاسم لاسم ملفك الحقيقي وامتداده */
        url('ZEYADAArabic-VF-.tff') format('tff'),
        url('ZEYADAArabic-VF-.tff') format('truetype'); /* لو الفونت ttf ضيف السطر ده */
@@ -10,7 +10,7 @@
 
 /* تطبيق الفونت العربي فقط لما اللغة تكون عربي */
 body[data-lang="ar"] .main-title {
-  font-family: 'ZEYADA Arabic 1', cursive !important;
+  font-family: 'ZEYADAArabic-VF-.tff', cursive !important;
   font-weight: normal;
   font-size: clamp(3rem, 8vw, 5.5rem); /* ظبط الحجم ليتناسب مع الخط اليدوي */
   letter-spacing: 0;
