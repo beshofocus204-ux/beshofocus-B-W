@@ -1,0 +1,91 @@
+:root {
+  --blue: #0A2540;
+  --turquoise: #00C2CB;
+  --light-blue: #3A86FF;
+  --bg-dark: #05111d;
+  --text-white: #ffffff;
+  --glass: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0; padding: 0;
+  font-family: 'Poppins', 'Cairo', sans-serif;
+  background: var(--bg-dark); color: var(--text-white);
+  transition: all 0.5s ease; overflow-x: hidden;
+}
+
+/* Header المتجاوب */
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 5%; position: fixed; width: 90%; top: 0; z-index: 1000;
+  background: rgba(5, 17, 29, 0.8); backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo {
+  font-weight: 800; font-size: 1.2rem;
+  background: linear-gradient(90deg, #fff, var(--turquoise));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.controls { display: flex; gap: 15px; }
+.toggle-container { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.toggle-label { font-size: 0.7rem; font-weight: 600; }
+.toggle-switch {
+  width: 34px; height: 18px; background: var(--glass);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+  position: relative; transition: 0.3s;
+}
+.toggle-ball {
+  width: 12px; height: 12px; background: white; border-radius: 50%;
+  position: absolute; top: 2px; left: 2px; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.active .toggle-switch { background: var(--turquoise); border-color: var(--turquoise); }
+.active .toggle-ball { left: 18px; background: var(--bg-dark); }
+
+/* Hero Section المتجاوب */
+.hero {
+  height: 100vh; display: flex; flex-direction: column; justify-content: center; 
+  align-items: center; text-align: center; padding: 0 20px;
+  background: radial-gradient(circle at center, rgba(0, 194, 203, 0.05) 0%, transparent 70%);
+}
+
+.hero h2 {
+  font-size: clamp(2.5rem, 10vw, 5rem); /* خط مرن يصغر مع الشاشة */
+  font-weight: 800; margin: 0; line-height: 1.1;
+  background: linear-gradient(180deg, #fff 30%, var(--turquoise) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(0, 194, 203, 0.2));
+}
+
+.hero p {
+  font-size: clamp(0.9rem, 4vw, 1.2rem);
+  font-weight: 300; margin-top: 20px; opacity: 0.7; max-width: 500px;
+}
+
+.btn-primary {
+  margin-top: 30px; background: transparent; border: 1px solid var(--turquoise);
+  color: var(--turquoise); padding: 12px 30px; border-radius: 2px;
+  text-transform: uppercase; letter-spacing: 2px; cursor: pointer; transition: 0.4s;
+  font-size: 0.8rem;
+}
+
+/* Media Queries للموبايل */
+@media (max-width: 768px) {
+  header { padding: 15px 5%; width: 90%; }
+  .logo { font-size: 1rem; }
+  .hero h2 { font-size: 2.8rem; }
+  .hero p { font-size: 0.95rem; padding: 0 10px; }
+}
+
+/* باقي التنسيقات (RTL, Light Mode, Animations) تفضل كما هي */
+.lang-transition { animation: langFade 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes langFade { 0% { opacity: 0; filter: blur(8px); transform: translateY(5px); } 100% { opacity: 1; filter: blur(0); transform: translateY(0); } }
+body.rtl { direction: rtl; font-family: 'Cairo', sans-serif; }
+body.light { background: #F8FAFC; color: #0A2540; }
+body.light header { background: rgba(248, 250, 252, 0.8); border-bottom: 1px solid rgba(10, 37, 64, 0.1); }
+body.light .logo { background: linear-gradient(90deg, #0A2540, var(--turquoise)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+body.light .hero h2 { background: linear-gradient(180deg, #0A2540 30%, var(--turquoise) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+body.light .hero p { color: #0A2540; opacity: 0.8; }
+body.light .toggle-switch { border-color: rgba(10, 37, 64, 0.2); }
+body.light .toggle-ball { background: #0A2540; }

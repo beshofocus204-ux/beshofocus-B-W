@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Besho Focus | Creative Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+
+  <header>
+    <div class="logo">Besho Focus</div>
+    <div class="controls">
+      <!-- سويتش اللغة -->
+      <div class="toggle-container" id="langToggle">
+        <span class="toggle-label">AR</span>
+        <div class="toggle-switch">
+          <div class="toggle-ball"></div>
+        </div>
+      </div>
+      <!-- سويتش الثيم -->
+      <div class="toggle-container" id="themeToggle">
+        <span class="toggle-label">🌙</span>
+        <div class="toggle-switch">
+          <div class="toggle-ball"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2 data-en="Creative Designer" data-ar="مصمم إبداعي">Creative Designer</h2>
+      <p data-en="I craft visual experiences that speak before words." 
+         data-ar="أصنع تجارب بصرية تتحدث قبل الكلمات.">
+         I craft visual experiences that speak before words.
+      </p>
+      <div class="cta-container">
+        <button class="btn-primary" data-en="View My Work" data-ar="شاهد أعمالي">View My Work</button>
+      </div>
+    </section>
+    <section id="projects" class="projects-grid"></section>
+  </main>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
