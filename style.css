@@ -1,3 +1,29 @@
+/* تعريف الفونت العربي اللي هترفعه */
+@font-face {
+  font-family: 'ZEYADA Arabic 1'; /* اسم مستعار للفونت العربي */
+  src: url('ZEYADAArabic-VF-.tff') format('tff'), /* غير الاسم لاسم ملفك الحقيقي وامتداده */
+       url('ZEYADAArabic-VF-.tff') format('tff'),
+       url('ZEYADAArabic-VF-.tff') format('truetype'); /* لو الفونت ttf ضيف السطر ده */
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* تطبيق الفونت العربي فقط لما اللغة تكون عربي */
+body[data-lang="ar"] .main-title {
+  font-family: 'ZEYADA Arabic 1', cursive !important;
+  font-weight: normal;
+  font-size: clamp(3rem, 8vw, 5.5rem); /* ظبط الحجم ليتناسب مع الخط اليدوي */
+  letter-spacing: 0;
+}
+
+/* الفونت الإنجليزي بيفضل زي ما هو Poppins */
+.main-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  transition: all 0.5s ease;
+}
+
+
 :root {
   --bg: #f0f0f0;
   --text: #1a1a1a;
