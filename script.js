@@ -1,14 +1,14 @@
 const langToggle = document.getElementById("langToggle");
 let currentLang = "en";
 
-// تبديل اللغة
 langToggle.onclick = () => {
   currentLang = currentLang === "en" ? "ar" : "en";
   langToggle.innerText = currentLang === "en" ? "AR" : "EN";
   
-  // السطر ده ضروري جداً عشان الفونت يتغير
+  // تغيير لغة الـ body عشان الفونت يتغير في الـ CSS
   document.body.setAttribute("data-lang", currentLang);
   
+  // تغيير كل النصوص اللي ليها ترجمة
   document.querySelectorAll("[data-en]").forEach(el => {
     el.innerText = el.getAttribute(`data-${currentLang}`);
   });
