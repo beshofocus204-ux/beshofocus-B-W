@@ -1,11 +1,20 @@
-/* تعريف الفونت العربي اللي هترفعه */
+/* تعريف الفونت باسم بسيط وامتداد واضح للموبايل */
 @font-face {
   font-family: 'ZeyadaArabic';
-  src: url('ZEYADAArabic-VF-.ttf') format('truetype');
-  font-weight: normal;
+  src: url('zeyada.ttf') format('truetype'); /* تأكد إن الاسم الجديد zeyada.ttf */
+  font-weight: 100 900; /* عشان يدعم الـ Variable Font لو هو كدا */
   font-style: normal;
-  font-display: swap; /* السطر ده بيخلي الموبايل يحمل الفونت أسرع */
+  font-display: block; /* بيجبر المتصفح يستنى الفونت لما يحمل */
 }
+
+/* تطبيق الفونت على الموبايل والديسكتوب */
+body[data-lang="ar"] .main-title,
+body[data-lang="ar"] .main-title span {
+  font-family: 'ZeyadaArabic', cursive !important;
+  -webkit-font-smoothing: antialiased; /* تحسين شكل الخط على الموبايل */
+  -moz-osx-font-smoothing: grayscale;
+}
+
 
 /* تطبيق الفونت العربي فقط لما اللغة تكون عربي */
 body[data-lang="ar"] .main-title {
