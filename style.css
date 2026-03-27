@@ -1,11 +1,10 @@
 /* تعريف الفونت العربي اللي هترفعه */
 @font-face {
-  font-family: 'ZEYADA Arabic 1'; /* اسم مستعار للفونت العربي */
-  src: url('ZEYADAArabic-VF-.ttf') format('ttf'), /* غير الاسم لاسم ملفك الحقيقي وامتداده */
-       url('ZEYADAArabic-VF-.ttf') format('ttf'),
-       url('ZEYADAArabic-VF-.ttf') format('truetype'); /* لو الفونت ttf ضيف السطر ده */
+  font-family: 'ZeyadaArabic';
+  src: url('ZEYADAArabic-VF-.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
+  font-display: swap; /* السطر ده بيخلي الموبايل يحمل الفونت أسرع */
 }
 
 /* تطبيق الفونت العربي فقط لما اللغة تكون عربي */
