@@ -5,10 +5,15 @@ let currentLang = "en";
 langToggle.onclick = () => {
   currentLang = currentLang === "en" ? "ar" : "en";
   langToggle.innerText = currentLang === "en" ? "AR" : "EN";
+  
+  // السطر ده ضروري جداً عشان الفونت يتغير
+  document.body.setAttribute("data-lang", currentLang);
+  
   document.querySelectorAll("[data-en]").forEach(el => {
     el.innerText = el.getAttribute(`data-${currentLang}`);
   });
 };
+
 
 // أنميشن الـ Focus & Blur عند التمرير
 const focusObserver = new IntersectionObserver((entries) => {
