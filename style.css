@@ -1,9 +1,9 @@
 /* تعريف الفونت العربي اللي هترفعه */
 @font-face {
   font-family: 'ZEYADA Arabic 1'; /* اسم مستعار للفونت العربي */
-  src: url('ZEYADAArabic-VF-.tff') format('tff'), /* غير الاسم لاسم ملفك الحقيقي وامتداده */
-       url('ZEYADAArabic-VF-.tff') format('tff'),
-       url('ZEYADAArabic-VF-.tff') format('truetype'); /* لو الفونت ttf ضيف السطر ده */
+  src: url('ZEYADAArabic-VF-.ttf') format('ttf'), /* غير الاسم لاسم ملفك الحقيقي وامتداده */
+       url('ZEYADAArabic-VF-.ttf') format('ttf'),
+       url('ZEYADAArabic-VF-.ttf') format('truetype'); /* لو الفونت ttf ضيف السطر ده */
   font-weight: normal;
   font-style: normal;
 }
