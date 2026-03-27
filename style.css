@@ -16,11 +16,21 @@ body[data-lang="ar"] .main-title {
   letter-spacing: 0;
 }
 
-/* الفونت الإنجليزي بيفضل زي ما هو Poppins */
+/* الفونت الإنجليزي الافتراضي */
 .main-title {
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
-  transition: all 0.5s ease;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+}
+
+/* لما اللغة تتحول لعربي نستخدم الفونت اللي رفعته */
+body[data-lang="ar"] .main-title {
+  font-family: 'ZEYADAArabic-VF-.tff', cursive !important;
+  font-weight: normal;
+}
+
+.red-text {
+  color: var(--red);
 }
 
 
