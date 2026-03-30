@@ -24,7 +24,7 @@ body[data-lang="ar"] .main-title span {
 body[data-lang="ar"] .main-title {
   font-family: 'ZEYADA Arabic 1', cursive !important;
   font-weight: normal;
-  font-size: clamp(7rem, 8vw, 5.5rem); /* ظبط الحجم ليتناسب مع الخط اليدوي */
+  font-size: clamp(20rem, 8vw, 5.5rem); /* ظبط الحجم ليتناسب مع الخط اليدوي */
   letter-spacing: 0;
 }
 
