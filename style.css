@@ -1,4 +1,3 @@
-/* ============ FONTS ============ */
 @font-face {
   font-family: 'ZeyadaArabic';
   src: url('db94da43ff4513bbfcd738380a90498f.woff') format('woff');
@@ -28,7 +27,6 @@ body[data-lang="ar"] .main-title {
   font-size: clamp(3.5rem, 8vw, 6rem);
 }
 
-/* ============ VARIABLES ============ */
 :root {
   --bg: #f0f0f0;
   --text: #1a1a1a;
@@ -38,7 +36,6 @@ body[data-lang="ar"] .main-title {
   --transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============ BASE ============ */
 body {
   margin: 0;
   font-family: 'Poppins', 'Cairo', sans-serif;
@@ -56,7 +53,7 @@ body {
   z-index: -1; pointer-events: none;
 }
 
-/* ============ HEADER ============ */
+/* HEADER */
 header {
   display: flex; justify-content: space-between; align-items: center;
   padding: 30px 8%; position: fixed; width: 84%; top: 0; z-index: 1000;
@@ -74,7 +71,7 @@ header {
 .lang-btn { cursor: pointer; font-weight: 900; font-size: 0.8rem; border: 1px solid var(--text); padding: 5px 10px; border-radius: 4px; }
 .admin-btn { text-decoration: none; color: white; background: var(--text); padding: 6px 15px; border-radius: 4px; font-size: 0.8rem; }
 
-/* ============ SECTION FOCUS/BLUR ============ */
+/* SECTION FOCUS */
 .section-focus {
   padding: 150px 10%; min-height: 60vh;
   transition: var(--transition);
@@ -84,7 +81,7 @@ header {
   filter: blur(0); opacity: 1; transform: scale(1);
 }
 
-/* ============ HERO ============ */
+/* HERO */
 .hero-container { display: flex; align-items: center; gap: 80px; }
 .hero-left { flex: 1; }
 .hero-right { flex: 1.5; }
@@ -109,14 +106,14 @@ header {
 }
 .red-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,0,0,0.2); }
 
-/* ============ SHARED: SECTION LABEL ============ */
+/* SECTION LABEL */
 .section-label {
   font-size: 0.8rem; font-weight: 900; text-transform: uppercase;
   letter-spacing: 3px; display: flex; align-items: center; gap: 15px; margin-bottom: 60px;
 }
 .red-line { width: 40px; height: 2px; background: var(--red); display: inline-block; }
 
-/* ============ TABLE OF CONTENTS ============ */
+/* TABLE OF CONTENTS */
 .toc-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -156,7 +153,7 @@ header {
 .toc-info p  { font-size: 0.8rem; opacity: 0.5; margin: 0; font-weight: 400; }
 .toc-arrow { font-size: 1.4rem; transition: 0.3s; }
 
-/* ============ SECTION BOOKMARK / DIVIDER ============ */
+/* SECTION BOOKMARK */
 .section-bookmark {
   display: flex; align-items: center; gap: 25px;
   padding: 50px 10%;
@@ -170,14 +167,11 @@ header {
   line-height: 1; min-width: 50px;
 }
 .bookmark-label {
-  font-size: 1rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 4px;
+  font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 4px;
 }
-.bookmark-line {
-  flex: 1; height: 1px; background: rgba(255,255,255,0.15);
-}
+.bookmark-line { flex: 1; height: 1px; background: rgba(255,255,255,0.15); }
 
-/* ============ ABOUT ============ */
+/* ABOUT */
 .about-grid {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
@@ -198,7 +192,6 @@ header {
   padding-bottom: 15px; border-bottom: 1px solid var(--gray);
 }
 
-/* Experience */
 .exp-list { display: flex; flex-direction: column; gap: 30px; }
 .exp-item { display: flex; gap: 20px; }
 .exp-year {
@@ -208,7 +201,7 @@ header {
 .exp-item strong { font-size: 0.95rem; display: block; margin-bottom: 6px; }
 .exp-item p { font-size: 0.85rem; opacity: 0.55; margin: 0; line-height: 1.6; }
 
-/* Skills */
+/* SKILLS */
 .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; }
 .skill-tag {
   display: flex;
@@ -236,14 +229,9 @@ header {
 .skill-tag:hover img {
   filter: brightness(0) invert(1);
 }
-.skill-tag:hover {
-  background: var(--text); color: white; border-color: var(--text);
-}
 
-/* ============ CLIENTS ============ */
-.clients-intro {
-  font-size: 1rem; opacity: 0.5; margin: -30px 0 50px; line-height: 1.7;
-}
+/* CLIENTS */
+.clients-intro { font-size: 1rem; opacity: 0.5; margin: -30px 0 50px; line-height: 1.7; }
 
 .clients-logos {
   display: flex; align-items: center; flex-wrap: wrap; gap: 0;
@@ -259,7 +247,6 @@ header {
 .client-logo-item:last-child { border-right: none; }
 .client-logo-item:hover { background: white; }
 
-/* Placeholder logo box — replace with <img> tags */
 .logo-placeholder {
   width: 70px; height: 70px;
   background: var(--gray-light);
@@ -271,7 +258,7 @@ header {
 }
 .client-logo-item:hover .logo-placeholder { opacity: 0.8; background: var(--gray); }
 
-/* ============ SERVICES ============ */
+/* SERVICES */
 .services-list { border-top: 1px solid var(--gray); }
 .service-item {
   display: flex; align-items: center; padding: 40px 0;
@@ -281,7 +268,7 @@ header {
 .service-num { font-size: 0.9rem; font-weight: 900; margin-right: 50px; opacity: 0.3; }
 .service-item h4 { font-size: 2rem; margin: 0; font-weight: 600; }
 
-/* ============ CONTACT ============ */
+/* CONTACT */
 .contact-section { min-height: auto; padding-bottom: 100px; }
 .contact-inner { max-width: 750px; }
 
@@ -303,7 +290,13 @@ header {
   transition: 0.3s;
 }
 .contact-card:hover { background: var(--text); color: white; border-color: var(--text); }
-.contact-icon { font-size: 1.4rem; }
+.contact-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.contact-card:hover .contact-logo { filter: brightness(0) invert(1); }
 .contact-label {
   display: block; font-size: 0.75rem; font-weight: 900;
   text-transform: uppercase; letter-spacing: 2px; opacity: 0.5; margin-bottom: 4px;
@@ -311,26 +304,22 @@ header {
 .contact-card:hover .contact-label { opacity: 0.6; }
 .contact-value { font-size: 1rem; font-weight: 600; }
 
-/* ============ FOOTER ============ */
+/* FOOTER */
 footer { padding: 60px 8% 40px; text-align: center; font-size: 0.8rem; opacity: 0.4; }
 
-/* ============ MOBILE ============ */
+/* MOBILE */
 @media (max-width: 768px) {
   .hero-container { flex-direction: column; text-align: center; gap: 40px; }
   .main-title { font-size: 3rem; }
   .sub-title { font-size: 1.5rem; letter-spacing: 5px; }
   header { flex-direction: column; gap: 15px; width: 100%; padding: 20px 0; }
   .nav-links { display: none; }
-
   .toc-grid { grid-template-columns: 1fr; }
   .about-grid { grid-template-columns: 1fr; gap: 40px; }
-
   .clients-logos { flex-direction: column; }
   .client-logo-item { border-right: none; border-bottom: 1px solid var(--gray); width: 100%; }
   .client-logo-item:last-child { border-bottom: none; }
-
   .contact-headline { font-size: 2rem; }
-
   .section-bookmark { padding: 30px 8%; }
   .bookmark-num { font-size: 2rem; }
 }
