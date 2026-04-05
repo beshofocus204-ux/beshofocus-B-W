@@ -1,15 +1,10 @@
-/* =============================================
-   Besho Focus — script.js
-   GSAP Premium Animations + Interactions
-   ============================================= */
-
 gsap.registerPlugin(ScrollTrigger);
 
 /* ── 1. PAGE LOADER ─────────────────────────── */
 function initLoader() {
   const loader = document.createElement('div');
   loader.className = 'page-loader';
-  loader.innerHTML = `<div class="loader-text">Besho <span>Focus</span></div>`;
+  loader.innerHTML = `<div class="loader-text">Beshoy <span>Hany</span></div>`;
   document.body.appendChild(loader);
 
   const tl = gsap.timeline({
