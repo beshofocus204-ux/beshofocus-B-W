@@ -465,6 +465,10 @@ header {
 .contact-card:hover .contact-label { opacity: 0.6; }
 .contact-value { font-size: 1rem; font-weight: 600; }
 
+/* ============ PROJECTS SECTION (No Blur) ============ */
+#projects { filter: blur(0) !important; opacity: 1 !important; transform: scale(1) !important; }
+#projects.is-visible { filter: blur(0); opacity: 1; transform: scale(1); }
+
 /* ============ WORKS SUBSECTIONS ============ */
 .works-subsection { margin-bottom: 80px; }
 .subsection-title {
