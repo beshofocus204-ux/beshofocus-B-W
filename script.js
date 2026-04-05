@@ -319,7 +319,14 @@ function initSectionFocus() {
     });
   }, { threshold: 0.2, rootMargin: '-8% 0px -8% 0px' });
 
-  document.querySelectorAll('.section-focus').forEach(s => focusObserver.observe(s));
+  // Exclude #projects from blur animation
+  document.querySelectorAll('.section-focus:not(#projects)').forEach(s => focusObserver.observe(s));
+  
+  // Keep #projects always visible
+  const projectsSection = document.getElementById('projects');
+  if (projectsSection) {
+    projectsSection.classList.add('is-visible');
+  }
 }
 
 /* ── INIT ALL ───────────────────────────────── */
