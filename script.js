@@ -468,3 +468,11 @@ window.addEventListener('DOMContentLoaded', () => {
   // ... existing code ...
   loadDynamicContent(); // Add this line at the end
 });
+// Load saved content on every page load
+const savedData = localStorage.getItem('beshoy_portfolio_data');
+if (savedData) {
+  const data = JSON.parse(savedData);
+  // Update all text content
+  if (data.hero?.desc) document.querySelector('.hero-desc')?.setAttribute('data-en', data.hero.desc);
+  if (data.about?.text) document.querySelector('.about-text')?.setAttribute('data-en', data.about.text);
+}
