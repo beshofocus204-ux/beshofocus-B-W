@@ -26,7 +26,6 @@
     h1 { margin-bottom: 10px; }
     h1 span { color: #ff0000; }
     h2 { margin: 30px 0 20px; font-size: 1.3rem; }
-    h3 { margin: 20px 0 10px; font-size: 1rem; color: #666; }
     input, textarea {
       width: 100%;
       padding: 12px;
@@ -80,6 +79,20 @@
       width: 100%;
       margin-top: 10px;
     }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.6s linear infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -90,7 +103,7 @@
   
   <!-- Login -->
   <div id="loginSection">
-    <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password" onkeypress="if(event.key==='Enter') login()">
     <button onclick="login()" class="full-width">Login →</button>
     <div id="loginMsg" class="message"></div>
   </div>
@@ -125,31 +138,41 @@
     </div>
     
     <div class="upload-area" onclick="document.getElementById('photoInput').click()">
-      📸 Click to select new photo
+      📸 Click to select new photo (Max 2MB)
     </div>
     <input type="file" id="photoInput" style="display: none" accept="image/*" onchange="prependPhoto(this)">
     
     <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button onclick="saveAll()" style="flex: 1;">💾 Save All Changes</button>
-      <button onclick="downloadBackup()" style="background: #28a745;">📥 Download Backup</button>
+      <button onclick="saveAll()" style="flex: 1;" id="saveBtn">💾 Save All Changes</button>
+      <button onclick="downloadBackup()" style="background: #28a745;">📥 Backup</button>
     </div>
     
     <p style="font-size: 12px; color: #999; margin-top: 20px; text-align: center;">
-      After saving, your website will update automatically within 1-2 minutes
+      ⚡ After saving, your website will update automatically within 1-2 minutes
     </p>
   </div>
 </div>
 
 <script>
-  // 🔐 ADMIN PASSWORD - Change this!
+  // ============================================
+  // 🔐 SECURITY SETTINGS - CHANGE THESE!
+  // ============================================
+  
+  // 1. ADMIN PASSWORD (change to anything you want)
   const ADMIN_PASSWORD = "Bb1.2.2005@";
   
-  // GitHub settings - CHANGE THESE!
-  const GITHUB_USERNAME = "beshofocus204-ux";     // غيّر هذا
-  const GITHUB_REPO = "beshofocus-B-W";        // غيّر هذا
+  // 2. GITHUB SETTINGS
+  const GITHUB_USERNAME = "beshofocus204-ux";     // 👈 اكتب اسم المستخدم بتاعك هنا
+  const GITHUB_REPO = "beshofocus-B-W";        // 👈 اكتب اسم الريبو بتاعك هنا
   const GITHUB_FILE = "data.json";
   
+  // 3. YOUR GITHUB TOKEN (put it here once, never type it again!)
+  const GITHUB_TOKEN = "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";  // 👈 حط التوكن بتاعك هنا مرة واحدة
+  
+  // ============================================
+  
   let currentPhotoBase64 = null;
+  let isLoading = false;
   
   function showMessage(elementId, msg, type) {
     const el = document.getElementById(elementId);
@@ -222,12 +245,13 @@
   }
   
   async function saveAll() {
-    const token = prompt('🔑 Enter your GitHub Personal Access Token:\n(Get one from https://github.com/settings/tokens)');
+    if (isLoading) return;
+    isLoading = true;
     
-    if (!token) {
-      showMessage('saveMsg', '❌ Token is required to save!', 'error');
-      return;
-    }
+    const saveBtn = document.getElementById('saveBtn');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.innerHTML = '⏳ Saving... <span class="loading"></span>';
+    saveBtn.disabled = true;
     
     const newData = {
       hero: {
@@ -247,12 +271,10 @@
       photo: currentPhotoBase64 || '/my-photo.png'
     };
     
-    showMessage('saveMsg', '⏳ Saving to GitHub...', 'success');
-    
     try {
-      // Get current file
+      // Get current file to get SHA
       const fileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
-        headers: { 'Authorization': `token ${token}` }
+        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
       });
       
       let sha = null;
@@ -261,12 +283,12 @@
         sha = fileData.sha;
       }
       
-      // Save file
+      // Save file to GitHub
       const content = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
       const saveRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
         method: 'PUT',
         headers: {
-          'Authorization': `token ${token}`,
+          'Authorization': `token ${GITHUB_TOKEN}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -279,7 +301,7 @@
       if (saveRes.ok) {
         showMessage('saveMsg', '✅ Saved successfully! Website will update in 1-2 minutes', 'success');
         setTimeout(() => {
-          if (confirm('Changes saved! View your website?')) {
+          if (confirm('✅ Changes saved! View your website now?')) {
             window.open('/', '_blank');
           }
         }, 1500);
@@ -289,6 +311,10 @@
       }
     } catch(e) {
       showMessage('saveMsg', `❌ Error: ${e.message}`, 'error');
+    } finally {
+      isLoading = false;
+      saveBtn.innerHTML = originalText;
+      saveBtn.disabled = false;
     }
   }
   
