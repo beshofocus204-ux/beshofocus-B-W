@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel</title>
+  <title>Admin Panel | Beshoy Hany</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -13,20 +13,24 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
     .container {
       background: white;
       padding: 40px;
       border-radius: 20px;
-      width: 500px;
-      max-width: 90%;
+      width: 600px;
+      max-width: 100%;
       box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     }
-    h1 { margin-bottom: 30px; color: #ff0000; }
+    h1 { margin-bottom: 10px; }
+    h1 span { color: #ff0000; }
+    h2 { margin: 30px 0 20px; font-size: 1.3rem; }
+    h3 { margin: 20px 0 10px; font-size: 1rem; color: #666; }
     input, textarea {
       width: 100%;
       padding: 12px;
-      margin: 10px 0 20px;
+      margin: 5px 0 15px;
       border: 2px solid #ddd;
       border-radius: 8px;
       font-family: inherit;
@@ -40,7 +44,6 @@
       border-radius: 8px;
       cursor: pointer;
       font-weight: bold;
-      width: 100%;
     }
     button:hover { background: #cc0000; }
     .hidden { display: none; }
@@ -50,116 +53,181 @@
       border-radius: 8px;
       display: none;
     }
-    .success { background: #d4edda; color: #155724; }
-    .error { background: #f8d7da; color: #721c24; }
-    .github-token {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      margin: 20px 0;
-      font-size: 12px;
+    .success { background: #d4edda; color: #155724; display: block; }
+    .error { background: #f8d7da; color: #721c24; display: block; }
+    .photo-preview {
+      margin: 15px 0;
+      text-align: center;
+    }
+    .photo-preview img {
+      max-width: 200px;
+      border-radius: 10px;
+      border: 3px solid #ff0000;
+    }
+    .upload-area {
+      border: 2px dashed #ccc;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin: 15px 0;
+      cursor: pointer;
+    }
+    .upload-area:hover {
+      border-color: #ff0000;
+      background: #fafafa;
+    }
+    .full-width {
+      width: 100%;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🔐 Admin Panel</h1>
+  <h1>Beshoy <span>Hany</span></h1>
+  <p style="margin-bottom: 30px; color: #666;">Admin Dashboard</p>
   
-  <!-- Login Form -->
-  <div id="loginForm">
-    <p style="margin-bottom: 20px;">Enter your secret key to continue</p>
-    <input type="password" id="secretKey" placeholder="Secret Key">
-    <button onclick="verifyLogin()">Login</button>
+  <!-- Login -->
+  <div id="loginSection">
+    <input type="password" id="adminPassword" placeholder="Enter Admin Password">
+    <button onclick="login()" class="full-width">Login →</button>
     <div id="loginMsg" class="message"></div>
   </div>
   
-  <!-- Admin Dashboard -->
-  <div id="adminPanel" class="hidden">
-    <h2>✏️ Edit Content</h2>
+  <!-- Admin Panel (hidden until login) -->
+  <div id="adminSection" class="hidden">
+    <button onclick="logout()" style="background: #333; margin-bottom: 20px;">🚪 Logout</button>
     
-    <div id="updateMsg" class="message"></div>
+    <div id="saveMsg" class="message"></div>
     
-    <h3>Hero Section</h3>
-    <input type="text" id="heroTitle" placeholder="Title">
-    <input type="text" id="heroSubtitle" placeholder="Subtitle">
-    <textarea id="heroDesc" placeholder="Description"></textarea>
+    <!-- Hero Section -->
+    <h2>📝 Hero Section</h2>
+    <input type="text" id="heroTitle" placeholder="Main Title (e.g., Beshoy Hany)">
+    <input type="text" id="heroSubtitle" placeholder="Subtitle (e.g., Portfolio)">
+    <textarea id="heroDesc" placeholder="Description..."></textarea>
     
-    <h3>About Section</h3>
+    <!-- About Section -->
+    <h2>👤 About Section</h2>
     <input type="text" id="aboutHeadline" placeholder="Headline">
-    <textarea id="aboutText" placeholder="About text"></textarea>
+    <textarea id="aboutText" placeholder="About text..."></textarea>
     
-    <h3>Contact</h3>
-    <input type="text" id="contactWhatsapp" placeholder="WhatsApp">
+    <!-- Contact Section -->
+    <h2>📞 Contact</h2>
+    <input type="text" id="contactWhatsapp" placeholder="WhatsApp Number">
     <input type="text" id="contactEmail" placeholder="Email">
-    <input type="text" id="contactPhone" placeholder="Phone">
+    <input type="text" id="contactPhone" placeholder="Phone Number">
     
-    <h3>Profile Photo URL</h3>
-    <input type="text" id="photoUrl" placeholder="/my-photo.png">
-    
-    <button onclick="saveToGitHub()">💾 Save & Publish to Website</button>
-    
-    <div class="github-token">
-      <small>⚠️ You need a GitHub token to save changes. <br>
-      Get one at: <a href="https://github.com/settings/tokens" target="_blank">GitHub Tokens</a><br>
-      Select: 'repo' scope</small>
+    <!-- Photo Upload -->
+    <h2>🖼️ Profile Photo</h2>
+    <div class="photo-preview" id="photoPreview">
+      <img id="previewImg" src="" alt="Current photo">
     </div>
+    
+    <div class="upload-area" onclick="document.getElementById('photoInput').click()">
+      📸 Click to select new photo
+    </div>
+    <input type="file" id="photoInput" style="display: none" accept="image/*" onchange="prependPhoto(this)">
+    
+    <div style="display: flex; gap: 10px; margin-top: 20px;">
+      <button onclick="saveAll()" style="flex: 1;">💾 Save All Changes</button>
+      <button onclick="downloadBackup()" style="background: #28a745;">📥 Download Backup</button>
+    </div>
+    
+    <p style="font-size: 12px; color: #999; margin-top: 20px; text-align: center;">
+      After saving, your website will update automatically within 1-2 minutes
+    </p>
   </div>
 </div>
 
 <script>
-  // YOUR SECRET KEY - Only you know this!
-  const SECRET_KEY = "BeshoySecret2026";
+  // 🔐 ADMIN PASSWORD - Change this!
+  const ADMIN_PASSWORD = "beshoy2026";
   
-  // GitHub settings (replace with your info)
-  const GITHUB_USERNAME = "YOUR_USERNAME";  // غيّر هذا
-  const GITHUB_REPO = "YOUR_REPO_NAME";     // غيّر هذا
-  const GITHUB_PATH = "data.json";
+  // GitHub settings - CHANGE THESE!
+  const GITHUB_USERNAME = "YOUR_USERNAME";     // غيّر هذا
+  const GITHUB_REPO = "YOUR_REPO_NAME";        // غيّر هذا
+  const GITHUB_FILE = "data.json";
   
-  function verifyLogin() {
-    const key = document.getElementById('secretKey').value;
-    if (key === SECRET_KEY) {
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('adminPanel').classList.remove('hidden');
-      loadCurrentData();
-      showMessage('loginMsg', '✅ Logged in successfully!', 'success');
-    } else {
-      showMessage('loginMsg', '❌ Wrong secret key!', 'error');
-    }
-  }
+  let currentPhotoBase64 = null;
   
   function showMessage(elementId, msg, type) {
     const el = document.getElementById(elementId);
     el.textContent = msg;
     el.className = `message ${type}`;
-    el.style.display = 'block';
     setTimeout(() => {
       el.style.display = 'none';
-    }, 3000);
+      el.className = 'message';
+    }, 4000);
+  }
+  
+  function login() {
+    const pwd = document.getElementById('adminPassword').value;
+    if (pwd === ADMIN_PASSWORD) {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('adminSection').classList.remove('hidden');
+      loadCurrentData();
+    } else {
+      showMessage('loginMsg', '❌ Wrong password! Use: beshoy2026', 'error');
+    }
+  }
+  
+  function logout() {
+    document.getElementById('loginSection').style.display = 'block';
+    document.getElementById('adminSection').classList.add('hidden');
+    document.getElementById('adminPassword').value = '';
   }
   
   async function loadCurrentData() {
     try {
-      const response = await fetch(`/data.json?t=${Date.now()}`);
+      const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/${GITHUB_FILE}?t=${Date.now()}`);
       const data = await response.json();
       
-      document.getElementById('heroTitle').value = data.hero?.title || '';
-      document.getElementById('heroSubtitle').value = data.hero?.subtitle || '';
-      document.getElementById('heroDesc').value = data.hero?.desc || '';
-      document.getElementById('aboutHeadline').value = data.about?.headline || '';
+      document.getElementById('heroTitle').value = data.hero?.title || 'Beshoy Hany';
+      document.getElementById('heroSubtitle').value = data.hero?.subtitle || 'Portfolio';
+      document.getElementById('heroDesc').value = data.hero?.desc || 'Graphic Designer & Visual Artist | 5+ Years Experience';
+      document.getElementById('aboutHeadline').value = data.about?.headline || 'Creative visual storytelling with purpose.';
       document.getElementById('aboutText').value = data.about?.text || '';
-      document.getElementById('contactWhatsapp').value = data.contact?.whatsapp || '';
-      document.getElementById('contactEmail').value = data.contact?.email || '';
-      document.getElementById('contactPhone').value = data.contact?.phone || '';
-      document.getElementById('photoUrl').value = data.photo || '/my-photo.png';
+      document.getElementById('contactWhatsapp').value = data.contact?.whatsapp || '+20 121 012 6459';
+      document.getElementById('contactEmail').value = data.contact?.email || 'beshofocus204@gmail.com';
+      document.getElementById('contactPhone').value = data.contact?.phone || '+20 103 139 4660';
+      
+      if (data.photo) {
+        document.getElementById('previewImg').src = data.photo;
+        currentPhotoBase64 = data.photo;
+      } else {
+        document.getElementById('previewImg').src = '/my-photo.png';
+      }
     } catch(e) {
-      console.log('Error loading data');
+      console.log('Using defaults');
     }
   }
   
-  async function saveToGitHub() {
-    const token = prompt('Enter your GitHub Personal Access Token:');
-    if (!token) return;
+  function prependPhoto(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+      showMessage('saveMsg', '❌ Photo too big! Max 2MB', 'error');
+      return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      currentPhotoBase64 = e.target.result;
+      document.getElementById('previewImg').src = currentPhotoBase64;
+      showMessage('saveMsg', '✅ Photo loaded! Click "Save All Changes" to publish', 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+  
+  async function saveAll() {
+    const token = prompt('🔑 Enter your GitHub Personal Access Token:\n(Get one from https://github.com/settings/tokens)');
+    
+    if (!token) {
+      showMessage('saveMsg', '❌ Token is required to save!', 'error');
+      return;
+    }
     
     const newData = {
       hero: {
@@ -176,19 +244,26 @@
         email: document.getElementById('contactEmail').value,
         phone: document.getElementById('contactPhone').value
       },
-      photo: document.getElementById('photoUrl').value
+      photo: currentPhotoBase64 || '/my-photo.png'
     };
     
+    showMessage('saveMsg', '⏳ Saving to GitHub...', 'success');
+    
     try {
-      // Get current file SHA
-      const fileResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+      // Get current file
+      const fileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
         headers: { 'Authorization': `token ${token}` }
       });
-      const fileData = await fileResponse.json();
-      const sha = fileData.sha;
       
-      // Update file
-      const updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_PATH}`, {
+      let sha = null;
+      if (fileRes.ok) {
+        const fileData = await fileRes.json();
+        sha = fileData.sha;
+      }
+      
+      // Save file
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
+      const saveRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
         method: 'PUT',
         headers: {
           'Authorization': `token ${token}`,
@@ -196,20 +271,54 @@
         },
         body: JSON.stringify({
           message: 'Update website content via admin panel',
-          content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
+          content: content,
           sha: sha
         })
       });
       
-      if (updateResponse.ok) {
-        showMessage('updateMsg', '✅ Published successfully! Website will update in 1-2 minutes', 'success');
-        setTimeout(() => location.reload(), 2000);
+      if (saveRes.ok) {
+        showMessage('saveMsg', '✅ Saved successfully! Website will update in 1-2 minutes', 'success');
+        setTimeout(() => {
+          if (confirm('Changes saved! View your website?')) {
+            window.open('/', '_blank');
+          }
+        }, 1500);
       } else {
-        showMessage('updateMsg', '❌ Error saving! Check your token', 'error');
+        const error = await saveRes.json();
+        showMessage('saveMsg', `❌ Error: ${error.message}`, 'error');
       }
     } catch(e) {
-      showMessage('updateMsg', '❌ Error: ' + e.message, 'error');
+      showMessage('saveMsg', `❌ Error: ${e.message}`, 'error');
     }
+  }
+  
+  function downloadBackup() {
+    const data = {
+      hero: {
+        title: document.getElementById('heroTitle').value,
+        subtitle: document.getElementById('heroSubtitle').value,
+        desc: document.getElementById('heroDesc').value
+      },
+      about: {
+        headline: document.getElementById('aboutHeadline').value,
+        text: document.getElementById('aboutText').value
+      },
+      contact: {
+        whatsapp: document.getElementById('contactWhatsapp').value,
+        email: document.getElementById('contactEmail').value,
+        phone: document.getElementById('contactPhone').value
+      },
+      photo: currentPhotoBase64
+    };
+    
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `backup-${new Date().toISOString().slice(0,19)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showMessage('saveMsg', '📥 Backup downloaded!', 'success');
   }
 </script>
 
