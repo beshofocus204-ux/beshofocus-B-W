@@ -82,9 +82,7 @@
 
 <script>
     // ========== إعداداتك - غيرها هنا ==========
-    const ADMIN_PASS = "Bb1.2.2005@";
-    const GITHUB_USER = "beshofocus204-ux";  // غير هذا
-    const GITHUB_REPO = "beshofocus-B-W";         // غير هذا
+    const ADMIN_PASS = "Bb1.2.2005@";ا
     const GITHUB_TOKEN = "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";   // حط التوكن هنا مرة واحدة
     // ===========================================
     
@@ -171,7 +169,7 @@
         try {
             // Get current file SHA
             const fileRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
-                headers: { 'Authorization': `token ${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}` }
+                headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
             });
             
             let sha = null;
@@ -185,7 +183,7 @@
             const saveRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${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}`,
+                    'Authorization': `token ${GITHUB_TOKEN}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
