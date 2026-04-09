@@ -1,351 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel | Beshoy Hany</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f0f0f0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .container {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      width: 600px;
-      max-width: 100%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-    }
-    h1 { margin-bottom: 10px; }
-    h1 span { color: #ff0000; }
-    h2 { margin: 30px 0 20px; font-size: 1.3rem; }
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 5px 0 15px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-family: inherit;
-    }
-    textarea { min-height: 100px; }
-    button {
-      background: #ff0000;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover { background: #cc0000; }
-    .hidden { display: none; }
-    .message {
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      display: none;
-    }
-    .success { background: #d4edda; color: #155724; display: block; }
-    .error { background: #f8d7da; color: #721c24; display: block; }
-    .photo-preview {
-      margin: 15px 0;
-      text-align: center;
-    }
-    .photo-preview img {
-      max-width: 200px;
-      border-radius: 10px;
-      border: 3px solid #ff0000;
-    }
-    .upload-area {
-      border: 2px dashed #ccc;
-      padding: 20px;
-      text-align: center;
-      border-radius: 10px;
-      margin: 15px 0;
-      cursor: pointer;
-    }
-    .upload-area:hover {
-      border-color: #ff0000;
-      background: #fafafa;
-    }
-    .full-width {
-      width: 100%;
-      margin-top: 10px;
-    }
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid #fff;
-      border-radius: 50%;
-      border-top-color: transparent;
-      animation: spin 0.6s linear infinite;
-      margin-left: 10px;
-      vertical-align: middle;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Beshoy Hany</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .box {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            background: red;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .hidden { display: none; }
+        .msg {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .success { background: #d4edda; color: green; }
+        .error { background: #f8d7da; color: red; }
+        img { max-width: 100%; border-radius: 10px; margin: 10px 0; }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Beshoy <span>Hany</span></h1>
-  <p style="margin-bottom: 30px; color: #666;">Admin Dashboard</p>
-  
-  <!-- Login -->
-  <div id="loginSection">
-    <input type="password" id="adminPassword" placeholder="Enter Admin Password" onkeypress="if(event.key==='Enter') login()">
-    <button onclick="login()" class="full-width">Login →</button>
-    <div id="loginMsg" class="message"></div>
-  </div>
-  
-  <!-- Admin Panel (hidden until login) -->
-  <div id="adminSection" class="hidden">
-    <button onclick="logout()" style="background: #333; margin-bottom: 20px;">🚪 Logout</button>
+<div class="box" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="login()">Login</button>
+    <div id="loginMsg"></div>
+</div>
+
+<div class="box hidden" id="adminBox">
+    <button onclick="logout()" style="background: #333; margin-bottom: 20px;">Logout</button>
+    <div id="msg"></div>
     
-    <div id="saveMsg" class="message"></div>
+    <h3>Hero Section</h3>
+    <input type="text" id="heroTitle" placeholder="Title">
+    <input type="text" id="heroSubtitle" placeholder="Subtitle">
+    <textarea id="heroDesc" placeholder="Description" rows="3"></textarea>
     
-    <!-- Hero Section -->
-    <h2>📝 Hero Section</h2>
-    <input type="text" id="heroTitle" placeholder="Main Title (e.g., Beshoy Hany)">
-    <input type="text" id="heroSubtitle" placeholder="Subtitle (e.g., Portfolio)">
-    <textarea id="heroDesc" placeholder="Description..."></textarea>
-    
-    <!-- About Section -->
-    <h2>👤 About Section</h2>
+    <h3>About Section</h3>
     <input type="text" id="aboutHeadline" placeholder="Headline">
-    <textarea id="aboutText" placeholder="About text..."></textarea>
+    <textarea id="aboutText" placeholder="About text" rows="4"></textarea>
     
-    <!-- Contact Section -->
-    <h2>📞 Contact</h2>
-    <input type="text" id="contactWhatsapp" placeholder="WhatsApp Number">
+    <h3>Contact</h3>
+    <input type="text" id="contactWhatsapp" placeholder="WhatsApp">
     <input type="text" id="contactEmail" placeholder="Email">
-    <input type="text" id="contactPhone" placeholder="Phone Number">
+    <input type="text" id="contactPhone" placeholder="Phone">
     
-    <!-- Photo Upload -->
-    <h2>🖼️ Profile Photo</h2>
-    <div class="photo-preview" id="photoPreview">
-      <img id="previewImg" src="" alt="Current photo">
-    </div>
+    <h3>Profile Photo</h3>
+    <img id="preview" src="">
+    <input type="file" id="photoInput" accept="image/*">
     
-    <div class="upload-area" onclick="document.getElementById('photoInput').click()">
-      📸 Click to select new photo (Max 2MB)
-    </div>
-    <input type="file" id="photoInput" style="display: none" accept="image/*" onchange="prependPhoto(this)">
-    
-    <div style="display: flex; gap: 10px; margin-top: 20px;">
-      <button onclick="saveAll()" style="flex: 1;" id="saveBtn">💾 Save All Changes</button>
-      <button onclick="downloadBackup()" style="background: #28a745;">📥 Backup</button>
-    </div>
-    
-    <p style="font-size: 12px; color: #999; margin-top: 20px; text-align: center;">
-      ⚡ After saving, your website will update automatically within 1-2 minutes
-    </p>
-  </div>
+    <button onclick="saveData()">💾 SAVE ALL CHANGES</button>
 </div>
 
 <script>
-  // ============================================
-  // 🔐 SECURITY SETTINGS - CHANGE THESE!
-  // ============================================
-  
-  // 1. ADMIN PASSWORD (change to anything you want)
-  const ADMIN_PASSWORD = "Bb1.2.2005@";
-  
-  // 2. GITHUB SETTINGS
-  const GITHUB_USERNAME = "beshofocus204-ux";     // 👈 اكتب اسم المستخدم بتاعك هنا
-  const GITHUB_REPO = "beshofocus-B-W";        // 👈 اكتب اسم الريبو بتاعك هنا
-  const GITHUB_FILE = "data.json";
-  
-  // 3. YOUR GITHUB TOKEN (put it here once, never type it again!)
-  const GITHUB_TOKEN = "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";  // 👈 حط التوكن بتاعك هنا مرة واحدة
-  
-  // ============================================
-  
-  let currentPhotoBase64 = null;
-  let isLoading = false;
-  
-  function showMessage(elementId, msg, type) {
-    const el = document.getElementById(elementId);
-    el.textContent = msg;
-    el.className = `message ${type}`;
-    setTimeout(() => {
-      el.style.display = 'none';
-      el.className = 'message';
-    }, 4000);
-  }
-  
-  function login() {
-    const pwd = document.getElementById('adminPassword').value;
-    if (pwd === ADMIN_PASSWORD) {
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('adminSection').classList.remove('hidden');
-      loadCurrentData();
-    } else {
-      showMessage('loginMsg', '❌ Wrong password!', 'error');
-    }
-  }
-  
-  function logout() {
-    document.getElementById('loginSection').style.display = 'block';
-    document.getElementById('adminSection').classList.add('hidden');
-    document.getElementById('adminPassword').value = '';
-  }
-  
-  async function loadCurrentData() {
-    try {
-      const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${GITHUB_REPO}/main/${GITHUB_FILE}?t=${Date.now()}`);
-      const data = await response.json();
-      
-      document.getElementById('heroTitle').value = data.hero?.title || 'Beshoy Hany';
-      document.getElementById('heroSubtitle').value = data.hero?.subtitle || 'Portfolio';
-      document.getElementById('heroDesc').value = data.hero?.desc || 'Graphic Designer & Visual Artist | 5+ Years Experience';
-      document.getElementById('aboutHeadline').value = data.about?.headline || 'Creative visual storytelling with purpose.';
-      document.getElementById('aboutText').value = data.about?.text || '';
-      document.getElementById('contactWhatsapp').value = data.contact?.whatsapp || '+20 121 012 6459';
-      document.getElementById('contactEmail').value = data.contact?.email || 'beshofocus204@gmail.com';
-      document.getElementById('contactPhone').value = data.contact?.phone || '+20 103 139 4660';
-      
-      if (data.photo) {
-        document.getElementById('previewImg').src = data.photo;
-        currentPhotoBase64 = data.photo;
-      } else {
-        document.getElementById('previewImg').src = '/my-photo.png';
-      }
-    } catch(e) {
-      console.log('Using defaults');
-    }
-  }
-  
-  function prependPhoto(input) {
-    const file = input.files[0];
-    if (!file) return;
+    // ========== إعداداتك - غيرها هنا ==========
+    const ADMIN_PASS = "beshoy2026";
+    const GITHUB_USER = "YOUR_GITHUB_USERNAME";  // غير هذا
+    const GITHUB_REPO = "YOUR_REPO_NAME";         // غير هذا
+    const GITHUB_TOKEN = "ghp_YOUR_TOKEN_HERE";   // حط التوكن هنا مرة واحدة
+    // ===========================================
     
-    if (file.size > 2 * 1024 * 1024) {
-      showMessage('saveMsg', '❌ Photo too big! Max 2MB', 'error');
-      return;
+    let currentPhoto = null;
+    
+    function login() {
+        const pwd = document.getElementById('password').value;
+        if (pwd === ADMIN_PASS) {
+            document.getElementById('loginBox').classList.add('hidden');
+            document.getElementById('adminBox').classList.remove('hidden');
+            loadData();
+        } else {
+            document.getElementById('loginMsg').innerHTML = '<div class="msg error">Wrong password!</div>';
+        }
     }
     
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      currentPhotoBase64 = e.target.result;
-      document.getElementById('previewImg').src = currentPhotoBase64;
-      showMessage('saveMsg', '✅ Photo loaded! Click "Save All Changes" to publish', 'success');
-    };
-    reader.readAsDataURL(file);
-  }
-  
-  async function saveAll() {
-    if (isLoading) return;
-    isLoading = true;
-    
-    const saveBtn = document.getElementById('saveBtn');
-    const originalText = saveBtn.innerHTML;
-    saveBtn.innerHTML = '⏳ Saving... <span class="loading"></span>';
-    saveBtn.disabled = true;
-    
-    const newData = {
-      hero: {
-        title: document.getElementById('heroTitle').value,
-        subtitle: document.getElementById('heroSubtitle').value,
-        desc: document.getElementById('heroDesc').value
-      },
-      about: {
-        headline: document.getElementById('aboutHeadline').value,
-        text: document.getElementById('aboutText').value
-      },
-      contact: {
-        whatsapp: document.getElementById('contactWhatsapp').value,
-        email: document.getElementById('contactEmail').value,
-        phone: document.getElementById('contactPhone').value
-      },
-      photo: currentPhotoBase64 || '/my-photo.png'
-    };
-    
-    try {
-      // Get current file to get SHA
-      const fileRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
-        headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
-      });
-      
-      let sha = null;
-      if (fileRes.ok) {
-        const fileData = await fileRes.json();
-        sha = fileData.sha;
-      }
-      
-      // Save file to GitHub
-      const content = btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2))));
-      const saveRes = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${GITHUB_FILE}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${GITHUB_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message: 'Update website content via admin panel',
-          content: content,
-          sha: sha
-        })
-      });
-      
-      if (saveRes.ok) {
-        showMessage('saveMsg', '✅ Saved successfully! Website will update in 1-2 minutes', 'success');
-        setTimeout(() => {
-          if (confirm('✅ Changes saved! View your website now?')) {
-            window.open('/', '_blank');
-          }
-        }, 1500);
-      } else {
-        const error = await saveRes.json();
-        showMessage('saveMsg', `❌ Error: ${error.message}`, 'error');
-      }
-    } catch(e) {
-      showMessage('saveMsg', `❌ Error: ${e.message}`, 'error');
-    } finally {
-      isLoading = false;
-      saveBtn.innerHTML = originalText;
-      saveBtn.disabled = false;
+    function logout() {
+        document.getElementById('loginBox').classList.remove('hidden');
+        document.getElementById('adminBox').classList.add('hidden');
+        document.getElementById('password').value = '';
     }
-  }
-  
-  function downloadBackup() {
-    const data = {
-      hero: {
-        title: document.getElementById('heroTitle').value,
-        subtitle: document.getElementById('heroSubtitle').value,
-        desc: document.getElementById('heroDesc').value
-      },
-      about: {
-        headline: document.getElementById('aboutHeadline').value,
-        text: document.getElementById('aboutText').value
-      },
-      contact: {
-        whatsapp: document.getElementById('contactWhatsapp').value,
-        email: document.getElementById('contactEmail').value,
-        phone: document.getElementById('contactPhone').value
-      },
-      photo: currentPhotoBase64
-    };
     
-    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `backup-${new Date().toISOString().slice(0,19)}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showMessage('saveMsg', '📥 Backup downloaded!', 'success');
-  }
+    async function loadData() {
+        try {
+            const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/data.json?t=${Date.now()}`);
+            const data = await res.json();
+            document.getElementById('heroTitle').value = data.hero?.title || '';
+            document.getElementById('heroSubtitle').value = data.hero?.subtitle || '';
+            document.getElementById('heroDesc').value = data.hero?.desc || '';
+            document.getElementById('aboutHeadline').value = data.about?.headline || '';
+            document.getElementById('aboutText').value = data.about?.text || '';
+            document.getElementById('contactWhatsapp').value = data.contact?.whatsapp || '';
+            document.getElementById('contactEmail').value = data.contact?.email || '';
+            document.getElementById('contactPhone').value = data.contact?.phone || '';
+            if (data.photo) {
+                document.getElementById('preview').src = data.photo;
+                currentPhoto = data.photo;
+            }
+        } catch(e) {
+            console.log('Error loading');
+        }
+    }
+    
+    document.getElementById('photoInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                currentPhoto = ev.target.result;
+                document.getElementById('preview').src = currentPhoto;
+                showMsg('Photo loaded! Click Save', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    
+    function showMsg(text, type) {
+        const msgDiv = document.getElementById('msg');
+        msgDiv.innerHTML = `<div class="msg ${type}">${text}</div>`;
+        setTimeout(() => msgDiv.innerHTML = '', 3000);
+    }
+    
+    async function saveData() {
+        showMsg('Saving...', 'success');
+        
+        const data = {
+            hero: {
+                title: document.getElementById('heroTitle').value,
+                subtitle: document.getElementById('heroSubtitle').value,
+                desc: document.getElementById('heroDesc').value
+            },
+            about: {
+                headline: document.getElementById('aboutHeadline').value,
+                text: document.getElementById('aboutText').value
+            },
+            contact: {
+                whatsapp: document.getElementById('contactWhatsapp').value,
+                email: document.getElementById('contactEmail').value,
+                phone: document.getElementById('contactPhone').value
+            },
+            photo: currentPhoto || '/my-photo.png'
+        };
+        
+        try {
+            // Get current file SHA
+            const fileRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`, {
+                headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+            });
+            
+            let sha = null;
+            if (fileRes.ok) {
+                const fileData = await fileRes.json();
+                sha = fileData.sha;
+            }
+            
+            // Save to GitHub
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const saveRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${GITHUB_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: 'Update website content',
+                    content: content,
+                    sha: sha
+                })
+            });
+            
+            if (saveRes.ok) {
+                showMsg('✅ SAVED! Website will update in 1 minute', 'success');
+            } else {
+                const err = await saveRes.json();
+                showMsg('Error: ' + err.message, 'error');
+            }
+        } catch(e) {
+            showMsg('Error: ' + e.message, 'error');
+        }
+    }
 </script>
 
 </body>
