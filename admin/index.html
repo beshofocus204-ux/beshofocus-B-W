@@ -109,7 +109,7 @@
     
     async function loadData() {
         try {
-            const res = await fetch(`https://raw.githubusercontent.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json?t=${Date.now()}`);
+            const res = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json?t=${Date.now()}`);
             const data = await res.json();
             document.getElementById('heroTitle').value = data.hero?.title || '';
             document.getElementById('heroSubtitle').value = data.hero?.subtitle || '';
