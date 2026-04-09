@@ -1,0 +1,8 @@
+{
+  "about": { "text": "Welcome to my profile" },
+  "experience": [],
+  "skills": [],
+  "projects": [
+    {"id": 1, "title": "Project 1", "category": "Medical", "image": "path/to/img.jpg"}
+  ]
+}
