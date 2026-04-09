@@ -17,7 +17,6 @@
       background: #f0f0f0;
     }
 
-    /* Login Page */
     .login-container {
       display: flex;
       justify-content: center;
@@ -78,9 +77,9 @@
     .error-msg {
       color: #ff0000;
       margin-top: 15px;
+      font-size: 14px;
     }
 
-    /* Dashboard */
     .dashboard {
       display: none;
     }
@@ -208,6 +207,14 @@
     .upload-btn:hover {
       background: #0056b3;
     }
+
+    .info-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid #ff0000;
+    }
   </style>
 </head>
 <body>
@@ -217,6 +224,11 @@
   <div class="login-box">
     <h1>Beshoy <span class="red-text">Hany</span></h1>
     <p style="color: #666; margin-bottom: 30px;">Admin Panel</p>
+    
+    <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107; margin-bottom: 20px;">
+      <small style="color: #856404;">🔐 Default Password: <strong>beshoy2026</strong></small>
+    </div>
+    
     <input type="password" id="passwordInput" placeholder="Enter Password" onkeypress="if(event.key==='Enter') login()">
     <button class="login-btn" onclick="login()">Login →</button>
     <div id="loginError" class="error-msg"></div>
@@ -238,15 +250,15 @@
       <h2>Hero Section</h2>
       <div class="form-group">
         <label>Main Title (Beshoy Hany)</label>
-        <input type="text" id="heroTitle">
+        <input type="text" id="heroTitle" placeholder="Beshoy Hany">
       </div>
       <div class="form-group">
         <label>Subtitle (Portfolio)</label>
-        <input type="text" id="heroSubtitle">
+        <input type="text" id="heroSubtitle" placeholder="Portfolio">
       </div>
       <div class="form-group">
         <label>Description</label>
-        <textarea id="heroDesc"></textarea>
+        <textarea id="heroDesc" placeholder="Your description here..."></textarea>
       </div>
       <button class="save-btn" onclick="saveHero()">Save Changes</button>
     </div>
@@ -256,11 +268,11 @@
       <h2>About Section</h2>
       <div class="form-group">
         <label>Headline</label>
-        <input type="text" id="aboutHeadline">
+        <input type="text" id="aboutHeadline" placeholder="Creative visual storytelling...">
       </div>
       <div class="form-group">
         <label>Bio Text</label>
-        <textarea id="aboutText"></textarea>
+        <textarea id="aboutText" placeholder="Tell your story..."></textarea>
       </div>
       <button class="save-btn" onclick="saveAbout()">Save Changes</button>
     </div>
@@ -270,15 +282,15 @@
       <h2>Contact Information</h2>
       <div class="form-group">
         <label>WhatsApp Number</label>
-        <input type="text" id="contactWhatsapp">
+        <input type="text" id="contactWhatsapp" placeholder="+20 121 012 6459">
       </div>
       <div class="form-group">
         <label>Email</label>
-        <input type="email" id="contactEmail">
+        <input type="email" id="contactEmail" placeholder="beshofocus204@gmail.com">
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="text" id="contactPhone">
+        <input type="text" id="contactPhone" placeholder="+20 103 139 4660">
       </div>
       <button class="save-btn" onclick="saveContact()">Save Changes</button>
     </div>
@@ -287,22 +299,22 @@
     <div class="section-card">
       <h2>Profile Photo</h2>
       <div class="current-photo" id="currentPhotoDiv">
-        <img id="currentPhotoImg" src="/my-photo.png" alt="Current Photo" style="max-width: 200px;">
+        <img id="currentPhotoImg" src="/my-photo.png" alt="Current Photo" style="max-width: 200px;" onerror="this.src='https://via.placeholder.com/200?text=Photo'">
       </div>
       <div class="form-group">
         <label>Upload New Photo</label>
-        <input type="file" id="photoFile" accept="image/png, image/jpeg, image/jpg">
+        <input type="file" id="photoFile" accept="image/png, image/jpeg, image/jpg, image/webp">
       </div>
       <button class="upload-btn" onclick="uploadPhoto()">Upload Photo</button>
+      <p style="font-size: 12px; color: #666; margin-top: 10px;">⚠️ Photo will be saved in your browser only</p>
     </div>
   </div>
 </div>
 
 <script>
   // 🔐 PASSWORD - Change this to whatever you want
-  const ADMIN_PASSWORD = "Beshoy2026";
+  const CORRECT_PASSWORD = "beshoy2026";
   
-  // Storage key
   const STORAGE_KEY = 'beshoy_portfolio_data';
 
   function showMessage(msg, isError = false) {
@@ -318,20 +330,26 @@
 
   function login() {
     const password = document.getElementById('passwordInput').value;
-    if (password === ADMIN_PASSWORD) {
-      localStorage.setItem('adminLoggedIn', 'true');
+    
+    // Simple password check
+    if (password === CORRECT_PASSWORD) {
+      // Store login state
+      sessionStorage.setItem('admin_logged_in', 'true');
+      
+      // Hide login, show dashboard
       document.getElementById('loginPage').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
+      
+      // Load all data
       loadAllData();
       showMessage('✅ Welcome to Admin Panel!');
     } else {
-      document.getElementById('loginError').innerHTML = '❌ Incorrect password. Try: Beshoy2026';
+      document.getElementById('loginError').innerHTML = '❌ Wrong password! <br> Use: <strong>beshoy2026</strong>';
     }
   }
 
   function logout() {
-    localStorage.removeItem('adminLoggedIn');
-    localStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem('admin_logged_in');
     location.reload();
   }
 
@@ -344,11 +362,16 @@
     document.getElementById('heroDesc').value = data.hero?.desc || 'Graphic Designer & Visual Artist | 5+ Years Experience';
     
     document.getElementById('aboutHeadline').value = data.about?.headline || 'Creative visual storytelling with purpose.';
-    document.getElementById('aboutText').value = data.about?.text || 'I\'m Beshoy Hany — a graphic designer based in Qena, Egypt, with 5+ years of professional experience.';
+    document.getElementById('aboutText').value = data.about?.text || 'I\'m Beshoy Hany — a graphic designer based in Qena, Egypt, with 5+ years of professional experience. I specialize in creating high-quality visual content for brands in beauty, medical, and food industries.';
     
     document.getElementById('contactWhatsapp').value = data.contact?.whatsapp || '+20 121 012 6459';
     document.getElementById('contactEmail').value = data.contact?.email || 'beshofocus204@gmail.com';
     document.getElementById('contactPhone').value = data.contact?.phone || '+20 103 139 4660';
+    
+    // Load photo if exists
+    if (data.photo) {
+      document.getElementById('currentPhotoImg').src = data.photo;
+    }
   }
 
   function saveHero() {
@@ -360,8 +383,7 @@
       desc: document.getElementById('heroDesc').value
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    showMessage('✅ Hero section saved!');
-    updateMainWebsite();
+    showMessage('✅ Hero section saved! Refresh your website to see changes.');
   }
 
   function saveAbout() {
@@ -372,8 +394,7 @@
       text: document.getElementById('aboutText').value
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    showMessage('✅ About section saved!');
-    updateMainWebsite();
+    showMessage('✅ About section saved! Refresh your website to see changes.');
   }
 
   function saveContact() {
@@ -385,8 +406,7 @@
       phone: document.getElementById('contactPhone').value
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    showMessage('✅ Contact info saved!');
-    updateMainWebsite();
+    showMessage('✅ Contact info saved! Refresh your website to see changes.');
   }
 
   function uploadPhoto() {
@@ -399,7 +419,13 @@
     }
     
     if (!file.type.match('image.*')) {
-      showMessage('❌ Please select an image file (PNG or JPG)', true);
+      showMessage('❌ Please select an image file (PNG, JPG, or WEBP)', true);
+      return;
+    }
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      showMessage('❌ File is too big! Max 5MB', true);
       return;
     }
     
@@ -407,49 +433,26 @@
     reader.onload = function(e) {
       const imageData = e.target.result;
       
-      // Save to localStorage
       const saved = localStorage.getItem(STORAGE_KEY);
       const data = saved ? JSON.parse(saved) : {};
       data.photo = imageData;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       
-      // Update preview
       document.getElementById('currentPhotoImg').src = imageData;
       
-      showMessage('✅ Photo uploaded and saved!');
-      updateMainWebsite();
+      showMessage('✅ Photo uploaded successfully! Refresh your website to see changes.');
+    };
+    reader.onerror = function() {
+      showMessage('❌ Error reading file!', true);
     };
     reader.readAsDataURL(file);
   }
 
-  function updateMainWebsite() {
-    // Trigger update on main page
-    localStorage.setItem('beshoy_update_needed', Date.now().toString());
-    
-    // Try to update if main page is open
-    if (window.opener && !window.opener.closed) {
-      try {
-        window.opener.postMessage({ type: 'UPDATE_CONTENT' }, '*');
-      } catch(e) {}
-    }
-    
-    showMessage('💡 Changes saved! Refresh your main website to see updates.');
-  }
-
-  // Check if already logged in
-  if (localStorage.getItem('adminLoggedIn') === 'true') {
+  // Check if already logged in (using sessionStorage)
+  if (sessionStorage.getItem('admin_logged_in') === 'true') {
     document.getElementById('loginPage').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     loadAllData();
-    
-    // Load saved photo if exists
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (data.photo) {
-        document.getElementById('currentPhotoImg').src = data.photo;
-      }
-    }
   }
 </script>
 
