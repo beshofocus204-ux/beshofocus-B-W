@@ -363,5 +363,58 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
+  <script>
+// Load saved data from admin panel
+function loadSavedContent() {
+  const saved = localStorage.getItem('beshoy_portfolio_data');
+  if (saved) {
+    const data = JSON.parse(saved);
+    
+    // Update hero text
+    if (data.hero) {
+      const heroDesc = document.querySelector('.hero-desc');
+      if (heroDesc && data.hero.desc) heroDesc.textContent = data.hero.desc;
+      
+      const subTitle = document.querySelector('.sub-title');
+      if (subTitle && data.hero.subtitle) subTitle.textContent = data.hero.subtitle;
+    }
+    
+    // Update about text
+    if (data.about) {
+      const aboutHeadline = document.querySelector('.about-headline');
+      if (aboutHeadline && data.about.headline) aboutHeadline.textContent = data.about.headline;
+      
+      const aboutText = document.querySelector('.about-text');
+      if (aboutText && data.about.text) aboutText.textContent = data.about.text;
+    }
+    
+    // Update contact info
+    if (data.contact) {
+      const whatsappLink = document.querySelector('.contact-card[href*="wa.me"]');
+      if (whatsappLink && data.contact.whatsapp) {
+        const num = data.contact.whatsapp.replace(/[^0-9]/g, '');
+        whatsappLink.href = `https://wa.me/${num}`;
+      }
+    }
+    
+    // Update profile photo
+    if (data.photo) {
+      const profileImg = document.querySelector('.bw-img');
+      if (profileImg) profileImg.src = data.photo;
+    }
+  }
+}
+
+// Listen for updates from admin panel
+window.addEventListener('storage', (e) => {
+  if (e.key === 'beshoy_portfolio_data' || e.key === 'beshoy_update_needed') {
+    loadSavedContent();
+    console.log('Content updated!');
+  }
+});
+
+// Load on page load
+loadSavedContent();
+</script>
 </body>
 </html>
