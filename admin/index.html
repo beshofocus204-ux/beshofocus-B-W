@@ -82,10 +82,10 @@
 
 <script>
     // ========== إعداداتك - غيرها هنا ==========
-    const ADMIN_PASS = "beshoy2026";
-    const GITHUB_USER = "YOUR_GITHUB_USERNAME";  // غير هذا
-    const GITHUB_REPO = "YOUR_REPO_NAME";         // غير هذا
-    const GITHUB_TOKEN = "ghp_YOUR_TOKEN_HERE";   // حط التوكن هنا مرة واحدة
+    const ADMIN_PASS = "Bb1.2.2005@";
+    const GITHUB_USER = "beshofocus204-ux";  // غير هذا
+    const GITHUB_REPO = "beshofocus-B-W";         // غير هذا
+    const GITHUB_TOKEN = "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";   // حط التوكن هنا مرة واحدة
     // ===========================================
     
     let currentPhoto = null;
@@ -170,8 +170,8 @@
         
         try {
             // Get current file SHA
-            const fileRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`, {
-                headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+            const fileRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
+                headers: { 'Authorization': `token ${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}` }
             });
             
             let sha = null;
@@ -182,10 +182,10 @@
             
             // Save to GitHub
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-            const saveRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`, {
+            const saveRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${GITHUB_TOKEN}`,
+                    'Authorization': `token ${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}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
