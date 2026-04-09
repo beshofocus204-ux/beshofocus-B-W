@@ -386,3 +386,85 @@ window.addEventListener('DOMContentLoaded', () => {
   initLightbox();
   // initSmoothScroll(); ← uncomment if you add ScrollTo GSAP plugin
 });
+/* ── 13. LOAD DYNAMIC CONTENT FROM ADMIN ── */
+function loadDynamicContent() {
+  // Load data from localStorage (saved by admin)
+  const data = JSON.parse(localStorage.getItem('beshoy_portfolio_data') || '{}');
+  
+  // Update Hero Section
+  if (data.hero) {
+    const titleWords = document.querySelectorAll('#mainTitle .title-word');
+    if (titleWords.length >= 2 && data.hero.title) {
+      const names = data.hero.title.split(' ');
+      if (names[0]) titleWords[0].textContent = names[0];
+      if (names[1]) titleWords[1].textContent = names[1];
+    }
+    
+    const subTitle = document.querySelector('.sub-title');
+    if (subTitle && data.hero.subtitle) {
+      subTitle.textContent = data.hero.subtitle;
+      subTitle.setAttribute('data-en', data.hero.subtitle);
+    }
+    
+    const heroDesc = document.querySelector('.hero-desc');
+    if (heroDesc && data.hero.desc) {
+      heroDesc.textContent = data.hero.desc;
+      heroDesc.setAttribute('data-en', data.hero.desc);
+    }
+  }
+  
+  // Update About Section
+  if (data.about) {
+    const aboutHeadline = document.querySelector('.about-headline');
+    if (aboutHeadline && data.about.headline) {
+      aboutHeadline.textContent = data.about.headline;
+      aboutHeadline.setAttribute('data-en', data.about.headline);
+    }
+    
+    const aboutText = document.querySelector('.about-text');
+    if (aboutText && data.about.text) {
+      aboutText.textContent = data.about.text;
+      aboutText.setAttribute('data-en', data.about.text);
+    }
+  }
+  
+  // Update Contact Section
+  if (data.contact) {
+    const whatsappLink = document.querySelector('.contact-card[href*="wa.me"]');
+    if (whatsappLink && data.contact.whatsapp) {
+      const whatsappNumber = data.contact.whatsapp.replace(/[^0-9]/g, '');
+      whatsappLink.href = `https://wa.me/${whatsappNumber}`;
+      const whatsappValue = whatsappLink.querySelector('.contact-value');
+      if (whatsappValue) whatsappValue.textContent = data.contact.whatsapp;
+    }
+    
+    const emailLink = document.querySelector('.contact-card[href*="mailto"]');
+    if (emailLink && data.contact.email) {
+      emailLink.href = `mailto:${data.contact.email}`;
+      const emailValue = emailLink.querySelector('.contact-value');
+      if (emailValue) emailValue.textContent = data.contact.email;
+    }
+    
+    const phoneLink = document.querySelector('.contact-card[href*="tel"]');
+    if (phoneLink && data.contact.phone) {
+      const phoneNumber = data.contact.phone.replace(/[^0-9+]/g, '');
+      phoneLink.href = `tel:${phoneNumber}`;
+      const phoneValue = phoneLink.querySelector('.contact-label');
+      if (phoneValue) phoneValue.textContent = data.contact.phone;
+    }
+  }
+}
+
+// Listen for storage changes (when admin saves)
+window.addEventListener('storage', (e) => {
+  if (e.key === 'beshoy_portfolio_data') {
+    loadDynamicContent();
+    console.log('Content updated from admin panel');
+  }
+});
+
+// Load dynamic content on page load
+window.addEventListener('DOMContentLoaded', () => {
+  // ... existing code ...
+  loadDynamicContent(); // Add this line at the end
+});
