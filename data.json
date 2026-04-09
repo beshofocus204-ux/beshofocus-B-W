@@ -1,0 +1,17 @@
+{
+  "hero": {
+    "title": "Beshoy Hany",
+    "subtitle": "Portfolio",
+    "desc": "Graphic Designer & Visual Artist | 5+ Years Experience"
+  },
+  "about": {
+    "headline": "Creative visual storytelling with purpose.",
+    "text": "I'm Beshoy Hany — a graphic designer based in Qena, Egypt, with 5+ years of professional experience. I specialize in creating high-quality visual content for brands in beauty, medical, and food industries."
+  },
+  "contact": {
+    "whatsapp": "+20 121 012 6459",
+    "email": "beshofocus204@gmail.com",
+    "phone": "+20 103 139 4660"
+  },
+  "photo": "/my-photo.png"
+}
