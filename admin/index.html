@@ -171,7 +171,7 @@
         try {
             // Get current file SHA
             const fileRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
-                headers: { 'Authorization': `token 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` }
+                headers: { 'Authorization': `token ${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}` }
             });
             
             let sha = null;
@@ -185,7 +185,7 @@
             const saveRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token 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`,
+                    'Authorization': `token ${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}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
