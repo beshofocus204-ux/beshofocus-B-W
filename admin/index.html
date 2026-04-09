@@ -109,7 +109,7 @@
     
     async function loadData() {
         try {
-            const res = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/data.json?t=${Date.now()}`);
+            const res = await fetch(`https://raw.githubusercontent.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json?t=${Date.now()}`);
             const data = await res.json();
             document.getElementById('heroTitle').value = data.hero?.title || '';
             document.getElementById('heroSubtitle').value = data.hero?.subtitle || '';
@@ -171,7 +171,7 @@
         try {
             // Get current file SHA
             const fileRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
-                headers: { 'Authorization': `token ${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}` }
+                headers: { 'Authorization': `token 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` }
             });
             
             let sha = null;
@@ -185,7 +185,7 @@
             const saveRes = await fetch(`https://github.com/beshofocus204-ux/beshofocus-B-W/blob/main/data.json`, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${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}`,
+                    'Authorization': `token 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`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
