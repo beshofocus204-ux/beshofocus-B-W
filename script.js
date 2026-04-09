@@ -476,3 +476,24 @@ if (savedData) {
   if (data.hero?.desc) document.querySelector('.hero-desc')?.setAttribute('data-en', data.hero.desc);
   if (data.about?.text) document.querySelector('.about-text')?.setAttribute('data-en', data.about.text);
 }
+// Save token in localStorage (optional)
+function saveToGitHub() {
+  let token = localStorage.getItem('github_token');
+  
+  if (!token) {
+    token = prompt('Enter your GitHub Personal Access Token:');
+    if (token) {
+      localStorage.setItem('github_token', token);
+    } else {
+      return;
+    }
+  }
+  
+  // باقي الكود...
+}
+
+// Add a button to clear saved token
+function clearToken() {
+  localStorage.removeItem('github_token');
+  alert('Token cleared!');
+}
