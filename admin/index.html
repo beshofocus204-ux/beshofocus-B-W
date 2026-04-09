@@ -340,7 +340,7 @@
 
 <script>
   // Admin password (change this!)
-  const ADMIN_PASSWORD = "Beshoy2026";
+  const ADMIN_PASSWORD = "Bb1.2.2005@";
 
   function login() {
     const password = document.getElementById('passwordInput').value;
@@ -386,40 +386,32 @@
     document.getElementById('contactPhone').value = data.contact?.phone || '+20 103 139 4660';
   }
 
-  function saveHero() {
-    const data = JSON.parse(localStorage.getItem('beshoy_portfolio_data') || '{}');
-    data.hero = {
-      title: document.getElementById('heroTitle').value,
-      subtitle: document.getElementById('heroSubtitle').value,
-      desc: document.getElementById('heroDesc').value
-    };
-    localStorage.setItem('beshoy_portfolio_data', JSON.stringify(data));
-    showMessage('✅ Hero section saved!');
-    updateWebsite();
-  }
+  // أضف هذه الدوال الجديدة بدل القديمة
 
-  function saveAbout() {
-    const data = JSON.parse(localStorage.getItem('beshoy_portfolio_data') || '{}');
-    data.about = {
-      headline: document.getElementById('aboutHeadline').value,
-      text: document.getElementById('aboutText').value
-    };
-    localStorage.setItem('beshoy_portfolio_data', JSON.stringify(data));
-    showMessage('✅ About section saved!');
-    updateWebsite();
+function saveHero() {
+  const data = JSON.parse(localStorage.getItem('beshoy_portfolio_data') || '{}');
+  data.hero = {
+    title: document.getElementById('heroTitle').value,
+    subtitle: document.getElementById('heroSubtitle').value,
+    desc: document.getElementById('heroDesc').value
+  };
+  localStorage.setItem('beshoy_portfolio_data', JSON.stringify(data));
+  
+  // تحديث الموقع الرئيسي فوراً
+  if (window.opener || window.parent !== window) {
+    // لو الأدرن في تاب منفصل
+    localStorage.setItem('beshoy_update_needed', Date.now().toString());
   }
+  
+  showMessage('✅ Hero section saved! Website will update automatically');
+  
+  // لو عايز تفتح الموقع الرئيسي في تاب جديد عشان تشوف التغيير
+  if (confirm('Saved! Do you want to see your website?')) {
+    window.open('/', '_blank');
+  }
+}
 
-  function saveContact() {
-    const data = JSON.parse(localStorage.getItem('beshoy_portfolio_data') || '{}');
-    data.contact = {
-      whatsapp: document.getElementById('contactWhatsapp').value,
-      email: document.getElementById('contactEmail').value,
-      phone: document.getElementById('contactPhone').value
-    };
-    localStorage.setItem('beshoy_portfolio_data', JSON.stringify(data));
-    showMessage('✅ Contact info saved!');
-    updateWebsite();
-  }
+// نفس الشيء لـ saveAbout و saveContact
 
   function updateWebsite() {
     // This would sync with your main website
