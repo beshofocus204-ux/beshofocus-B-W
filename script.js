@@ -44,11 +44,11 @@ function initHeroAnimation() {
     y: 0, duration: 1, stagger: 0.12, ease: 'power4.out'
   }, '-=0.2')
 
-  // Photo parallax entrance
+  // Photo parallax entrance (smooth, no flicker)
   .fromTo('.hero-img-wrapper',
-    { x: 60, opacity: 0 },
-    { x: 0, opacity: 1, duration: 1.2, ease: 'power3.out' },
-    '-=0.8'
+    { x: 60, opacity: 0, scale: 0.95 },
+    { x: 0, opacity: 1, scale: 1, duration: 1, ease: 'power3.out' },
+    '-=0.6'
   )
 
   // Sub elements stagger in
@@ -329,6 +329,49 @@ function initSectionFocus() {
   }
 }
 
+/* ── 12. LIGHTBOX FUNCTIONALITY ────────────── */
+function initLightbox() {
+  // Create lightbox modal
+  const modal = document.createElement('div');
+  modal.className = 'lightbox-modal';
+  modal.innerHTML = `
+    <div class="lightbox-content">
+      <span class="lightbox-close">&times;</span>
+      <img class="lightbox-img" src="" alt="">
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  const lightboxImg = modal.querySelector('.lightbox-img');
+  const closeBtn = modal.querySelector('.lightbox-close');
+
+  // Open lightbox on image click
+  document.querySelectorAll('.lightbox-trigger').forEach(img => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      lightboxImg.src = img.src;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Close lightbox
+  const closeLightbox = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  closeBtn.addEventListener('click', closeLightbox);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeLightbox();
+  });
+
+  // Close on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeLightbox();
+  });
+}
+
 /* ── INIT ALL ───────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
   initNoise();
@@ -340,5 +383,6 @@ window.addEventListener('DOMContentLoaded', () => {
   initParallax();
   initHeaderScroll();
   initLangToggle();
+  initLightbox();
   // initSmoothScroll(); ← uncomment if you add ScrollTo GSAP plugin
 });
