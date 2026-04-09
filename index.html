@@ -496,5 +496,85 @@ loadSavedContent();
   // Reload every 30 seconds (optional)
   setInterval(loadWebsiteData, 30000);
 </script>
+  <!-- Load content from GitHub -->
+<script>
+  async function loadWebsiteContent() {
+    try {
+      // Try to load from GitHub raw file
+      const response = await fetch('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/data.json?t=' + Date.now());
+      
+      if (!response.ok) {
+        throw new Error('Using default content');
+      }
+      
+      const data = await response.json();
+      
+      // Update Hero
+      if (data.hero) {
+        const heroDesc = document.querySelector('.hero-desc');
+        if (heroDesc && data.hero.desc) heroDesc.innerHTML = data.hero.desc;
+        
+        const subTitle = document.querySelector('.sub-title');
+        if (subTitle && data.hero.subtitle) subTitle.innerHTML = data.hero.subtitle;
+        
+        // Update title if exists
+        const titleWords = document.querySelectorAll('#mainTitle .title-word');
+        if (titleWords.length >= 2 && data.hero.title) {
+          const names = data.hero.title.split(' ');
+          titleWords[0].innerHTML = names[0] || 'Beshoy';
+          titleWords[1].innerHTML = names[1] || 'Hany';
+        }
+      }
+      
+      // Update About
+      if (data.about) {
+        const aboutHeadline = document.querySelector('.about-headline');
+        if (aboutHeadline && data.about.headline) aboutHeadline.innerHTML = data.about.headline;
+        
+        const aboutText = document.querySelector('.about-text');
+        if (aboutText && data.about.text) aboutText.innerHTML = data.about.text;
+      }
+      
+      // Update Contact
+      if (data.contact) {
+        const whatsappCard = document.querySelector('.contact-card[href*="wa.me"]');
+        if (whatsappCard && data.contact.whatsapp) {
+          const num = data.contact.whatsapp.replace(/[^0-9]/g, '');
+          whatsappCard.href = `https://wa.me/${num}`;
+          const val = whatsappCard.querySelector('.contact-value');
+          if (val) val.innerHTML = data.contact.whatsapp;
+        }
+        
+        const emailCard = document.querySelector('.contact-card[href*="mailto"]');
+        if (emailCard && data.contact.email) {
+          emailCard.href = `mailto:${data.contact.email}`;
+          const val = emailCard.querySelector('.contact-value');
+          if (val) val.innerHTML = data.contact.email;
+        }
+        
+        const phoneCard = document.querySelector('.contact-card[href*="tel"]');
+        if (phoneCard && data.contact.phone) {
+          phoneCard.href = `tel:${data.contact.phone}`;
+        }
+      }
+      
+      // Update Photo
+      if (data.photo) {
+        const profileImg = document.querySelector('.bw-img');
+        if (profileImg) profileImg.src = data.photo;
+      }
+      
+      console.log('✅ Content loaded from GitHub');
+    } catch (error) {
+      console.log('Using default content from HTML');
+    }
+  }
+  
+  // Load when page loads
+  loadWebsiteContent();
+  
+  // Check for updates every 30 seconds
+  setInterval(loadWebsiteContent, 30000);
+</script>
 </body>
 </html>
